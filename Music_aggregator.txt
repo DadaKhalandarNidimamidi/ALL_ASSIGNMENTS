@@ -1,0 +1,120 @@
+class:
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Music_aggregator
+
+{
+
+    internal class song
+    {
+        private string _title;
+        private string _gener;
+        private string _duration;
+        private double _rating;
+        public song(string title, string gener, string duration, double rating)
+        {
+            _title = title;
+            _gener = gener;
+            _duration = duration;
+            _rating = rating;
+        }
+
+
+
+        public string Title
+        {
+            get { 
+                return _title;
+            }
+            set { 
+                _title = value; 
+            
+            }
+        }
+        public string Gener
+        {
+            get {
+                return _gener; 
+            }
+            set {
+                _gener = value; 
+            
+            }
+        }
+        public string Duration
+        {
+            get {
+                return _duration; 
+            }
+            set {
+                _duration = value; 
+            
+            }
+        }
+        public double Rating
+        {
+            get
+            {
+                return _rating; 
+            
+            }
+            set 
+            { 
+                
+                _rating = value; 
+         }
+           
+    }
+  }
+
+
+}
+---------------------------------
+program:
+using System;
+using System.Collections.Generic;
+
+namespace Music_aggregator
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            
+            Console.WriteLine("Enter the sing 1details and seprate by ,  ");
+            string[] song1Details = Console.ReadLine().Split(',');
+            string title1 = song1Details[0];
+            string gener1 = song1Details[1];
+            string duration1 = song1Details[2];
+            double rating1 = double.Parse(song1Details[3]);
+            Console.WriteLine("Enter the sing 2  details and seprate by ,  ");
+            string[] song2Details = Console.ReadLine().Split(',');
+            string title2 = song1Details[0];
+            string gener2 = song1Details[1];
+            string duration2 = song1Details[2];
+            double rating2 = double.Parse(song1Details[3]);
+           
+            List<song> songs = new List<song>();
+            songs.Add(new song(title1, gener1, duration1, rating1));
+            songs.Add(new song(title2, gener2, duration2, rating2));
+
+
+            Console.WriteLine("Title of the song    "+ songs[0].Title);
+            Console.WriteLine("Gener of the somg   "+ songs[0].Gener);
+            Console.WriteLine("Duration of the song   "+ songs[0].Duration);
+            Console.WriteLine("RAting od the song  "+ songs[0].Rating);
+            Console.WriteLine("_________________________________________");
+            Console.WriteLine("Title of the song    " + songs[1].Title);
+            Console.WriteLine("Gener of the somg   " + songs[1].Gener);
+            Console.WriteLine("Duration of the song   " + songs[1].Duration);
+            Console.WriteLine("Rating od the song  " + songs[1].Rating);
+
+        }
+    }
+}
+
+
+
+
