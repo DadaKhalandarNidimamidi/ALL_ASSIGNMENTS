@@ -1,0 +1,57 @@
+1.
+
+SELECT SUPPLIER_NAME,BOOK_TITLE  FROM 
+LMS_BOOK_DETAILS AS P1 JOIN LMS_SUPPLIERS_DETAILS AS P2
+ON P1.SUPPLIER_ID = P2.SUPPLIER_ID;
+
+2.
+
+select MEMBER_NAME,BOOK_CODE FROM 
+LMS_BOOK_ISSUE AS P1 JOIN LMS_MEMBERS AS P2
+ON P1.MEMBER_ID = P2.MEMBER_ID;
+
+
+3.Write a query to display the book title and date when the book was taken from the library.
+
+SELECT BOOK_TITLE,DATE_ISSUE FROM 
+LMS_BOOK_DETAILS AS P1 JOIN LMS_BOOK_ISSUE AS P2
+ON P1.BOOK_CODE=P2.BOOK_CODE;
+4.Write a query to display the member id and the fine amount paid by the member in the library.
+
+SELECT DISTINCT MEMBER_ID,FINE_AMOUNT FROM
+LMS_BOOK_ISSUE AS P1 JOIN  LMS_FINE_DETAILS AS P2
+ON P1.FINE_RANGE=P2.FINE_RANGE;
+
+5.Write a query to display the member name and the date difference between the date return and date returned.
+SELECT MEMBER_NAME,DATEDIFF(MONTH,'DATE_RETURN','DATE_RETURNED') FROM 
+LMS_BOOK_ISSUE AS P1 JOIN LMS_MEMBERS AS P2 
+ON P1.MEMBER_ID=P2.MEMBER_ID;
+
+6.Write a query to display the book title and the member name of member who has taken book from library.
+SELECT BOOK_TITLE,MEMBER_NAME FROM
+LMS_MEMBERS AS P1 JOIN LMS_BOOK_ISSUE AS P2
+ON P1.MEMBER_ID=P2.MEMBER_ID
+JOIN LMS_BOOK_DETAILS AS P3
+ON P2.BOOK_CODE = P3.BOOK_CODE; 
+
+
+7.Write a query to display the book title, member name and the supplier name for the books taken from the library.
+SELECT BOOK_TITLE,MEMBER_NAME,SUPPLIER_NAME FROM
+LMS_BOOK_DETAILS AS  P1 JOIN LMS_SUPPLIERS_DETAILS AS P2 
+ON P1.SUPPLIER_ID=P2.SUPPLIER_ID
+JOIN LMS_BOOK_ISSUE AS P3
+ON P1.BOOK_CODE=P3.BOOK_CODE
+JOIN LMS_MEMBERS AS P4
+ON P3.MEMBER_ID=P4.MEMBER_ID;
+Write a query to display the member id, member name, 
+city and member status of members with the total fine
+paid by them with alias name “Fine”.
+
+
+8.
+SELECT P1.MEMBER_ID,MEMBER_NAME,CITY, SUM(P3.FINE_AMOUNT) AS FINE FROM 
+LMS_MEMBERS P1 JOIN LMS_BOOK_ISSUE P2 ON
+P1.MEMBER_ID = P2.MEMBER_ID JOIN 
+LMS_FINE_DETAILS AS P3 ON 
+P2.FINE_RANGE = P3.FINE_RANGE
+GROUP BY P1.MEMBER_ID, P1.MEMBER_NAME, P1.CITY;

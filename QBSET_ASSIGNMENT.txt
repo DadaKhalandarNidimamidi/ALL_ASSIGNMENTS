@@ -1,0 +1,49 @@
+
+1.Write a query to display the id, entire street address and the first
+word of the street address of all entries in the location table. Give
+an alias to the first word as 'first_word'. Display the records sorted in 
+ ascending order based on first_word.(Q10)
+
+select Id,street_address from location
+Order bY street_address;
+------------------------------------------------------------
+2.Write a query to display the names of all states belonging
+ to the country Canada. 
+Display the records sorted in ascending order based on state name.(Q 2).
+
+ select state from location where country_id='CA'
+ order by state;
+--------------------------------------------------------------
+
+9.Write a query to display the names of all countries belonging to region
+ Europe. Display the records sorted in ascending order based on country name.(Q1)
+
+ select name from countries where region_Id='1'
+ order by name;
+-----------------------------------------------------------------------------
+11.Write a query to display the first name and salary for all employees. Format
+ the salary to be 10 characters long, left-padded with the $ symbol. 
+Display the records sorted in ascending order based on first name.(Q11).
+
+
+ SELECT first_name,'$$$$$'+ CONVERT(varchar(20), salary) as Salary FROM employee 
+--------------------------------------------------------------------
+
+13.	Write a query to display the first name and the last 5 characters of phone numbers 
+ of all employees. Display the records sorted in ascending order based on first name.
+ Give an alias to the last 5 characters of phone number as phone_number(Q8).
+
+SELECT first_name,LEFT(phone_number, 5) FROM employee
+order by first_name;
+
+-------------------------------------------------------------------
+Display the emloyee details whose age is > 25.
+Select first_name, datediff(YY,date_of_birth,getdate()) as age from employee
+
+----------------------------------------------------
+14.Write a query to display the first name of the managers of HR department. 
+ Display the records sorted in ascending order based on manager name(Q6)
+ 
+select first_name from employee where department_id ='2'
+order by first_name;
+----------------------------------------------------------------
