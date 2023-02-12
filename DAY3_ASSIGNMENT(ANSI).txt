@@ -1,0 +1,203 @@
+Assignment questions:1,3,4,5,6,7,8,9,10,11,12,13,14,16
+
+1.Write a query to display the member id, member name, 
+ city and membership status who are all having life time membership.
+ Hint: Life time membership status is “Permanent”.
+
+SELECT member_id,member_name,city,membership_status from LMS_MEMBERS where membership_status='Permanent';
+-------------------------------------------------------------------
+3.Write a query to display the member id, member name 
+ who have taken the book with book code 'BL000002'. 
+
+select MEMBER_ID,MEMBER_NAME from LMS_MEMBERS where MEMBER_ID=(SELECT MEMBER_ID FROM LMS_BOOK_ISSUE WHERE BOOK_CODE LIKE 'BL000002')
+
+------------------------------------------------------------------
+4.Write a query to display the book code, 
+ book title and author of the books whose author name begins with 'P'.
+
+SELECT COUNT(CATEGORY) AS NO_OF_BOOKS FROM LMS_BOOK_DETAILS WHERE CATEGORY='JAVA'
+----------------------------------------------------------------------
+5.Write a query to display the total number of Java books available 
+ in library with alias name ‘NO_OF_BOOKS’. 
+ 
+SELECT BOOK_CODE,BOOK_TITLE,AUTHOR FROM LMS_BOOK_DETAILS WHERE AUTHOR LIKE 'P%';
+--------------------------------------------------------------------
+6. Write a query to list the category and number of books in each
+ category with alias name ‘NO_OF_BOOKS’
+
+SELECT COUNT(CATEGORY) AS NO_OF_BOOKS FROM LMS_BOOK_DETAILS;  ---- ALL BOOKS WITH OUT CATEGORY ---
+SELECT COUNT(CATEGORY) AS NO_OF_BOOKS FROM LMS_BOOK_DETAILS 
+GROUP BY CATEGORY;                                            ---- DIFFERENT CATEGORIES ----
+---------------------------------------------------------------------
+7.Write a query to display the number of books published by
+ "Prentice Hall” with the alias name “NO_OF_BOOKS”.
+SELECT COUNT(PUBLICATION) AS NO_OF_BOOKS FROM LMS_BOOK_DETAILS WHERE PUBLICATION = 'Prentice Hall';
+
+----------------------------------------------------------------------
+8.Write a query to display the book code, book title of the books 
+ which are issued on the date "1st April 2012".
+
+SELECT BOOK_CODE,BOOK_TITLE FROM LMS_BOOK_DETAILS WHERE BOOK_CODE IN (SELECT BOOK_CODE FROM LMS_BOOK_ISSUE WHERE DATE_ISSUE='2012-04-01');
+--------------------------------------------------------------------------
+9.Write a query to display the member id, member name, date of registration
+ and expiry date of the members whose membership expiry date is before APR 2013.
+
+SELECT MEMBER_ID,MEMBER_NAME,DATE_REGISTER,DATE_EXPIRE FROM LMS_MEMBERS WHERE DATE_EXPIRE < '2013-04-01';
+---------------------------------------------------------------------------
+10.write a query to display the member id, member name, date of registration, 
+ membership status of the members who registered before
+ "March 2012" and membership status is "Temporary" 
+
+SELECT MEMBER_ID,MEMBER_NAME,DATE_REGISTER,MEMBERSHIP_STATUS FROM LMS_MEMBERS WHERE DATE_REGISTER < '2012-03-01' and MEMBERSHIP_STATUS ='Temporary';
+---------------------------------------------------------------------------
+11.Write a query to display the member id, member name who’s City 
+   is CHENNAI or DELHI. Hint: Display the member name in 
+   title case with alias name 'Name'. 
+ 
+ select MEMBER_ID,MEMBER_NAME AS NAME FROM LMS_MEMBERS WHERE CITY='CHENNAI' OR CITY='DELHI';
+---------------------------------------------------------------------------
+12.Write a query to concatenate book title, author and display in the following format.
+  Book_Title_is_written_by_Author
+  Example:  Let Us C_is_written_by_Yashavant Kanetkar
+  Hint: display unique books. Use “BOOK_WRITTEN_BY” as alias name. 
+
+ SELECT CONCAT(BOOK_TITLE,'_IS_WRITTEN_BY_',AUTHOR) AS BOOK_NAME_WITH_AUTHOR_NAME FROM LMS_BOOK_DETAILS; 
+--------------------------------------------------------------------------------
+
+13.Write a query to display the average 
+  price of books which is belonging to ‘JAVA’category with alias name “AVERAGEPRICE”.
+
+ SELECT AVG(PRICE)AS AVERAGEPRICE FROM LMS_BOOK_DETAILS WHERE CATEGORY='JAVA';
+-------------------------------------------------------------------------------------
+14.Write a query to display the supplier id, supplier name and
+  email of the suppliers who are all having gmail account.
+ select * from LMS_SUPPLIERS_DETAILS;
+
+SELECT SUPPLIER_ID,SUPPLIER_NAME,EMAIL FROM LMS_SUPPLIERS_DETAILS WHERE EMAIL like '%gmail.com'; 
+-----------------------------------------------------------------------------------------
+16.Write a query to display the supplier id, supplier name and contact.  
+If phone number is null then display ‘No’ else 
+display ‘Yes’ with alias name “PHONENUMAVAILABLE”. Hint: Use ISNULL.
+
+SELECT SUPPLIER_ID,SUPPLIER_NAME,CONTACT, CASE WHEN CONTACT IS NULL THEN 'No' ELSE 'Yes' END PHONENUMBERAVAILABLE FROM LMS_SUPPLIERS_DETAILS;
+----------------------------------------------------------------------------------------
+1.
+
+SELECT SUPPLIER_NAME,BOOK_TITLE  FROM 
+LMS_BOOK_DETAILS AS P1 JOIN LMS_SUPPLIERS_DETAILS AS P2
+ON P1.SUPPLIER_ID = P2.SUPPLIER_ID;
+
+2.
+
+select MEMBER_NAME,BOOK_CODE FROM 
+LMS_BOOK_ISSUE AS P1 JOIN LMS_MEMBERS AS P2
+ON P1.MEMBER_ID = P2.MEMBER_ID;
+
+
+3.Write a query to display the book title and date when the book was taken from the library.
+
+SELECT BOOK_TITLE,DATE_ISSUE FROM 
+LMS_BOOK_DETAILS AS P1 JOIN LMS_BOOK_ISSUE AS P2
+ON P1.BOOK_CODE=P2.BOOK_CODE;
+4.Write a query to display the member id and the fine amount paid by the member in the library.
+
+SELECT DISTINCT MEMBER_ID,FINE_AMOUNT FROM
+LMS_BOOK_ISSUE AS P1 JOIN  LMS_FINE_DETAILS AS P2
+ON P1.FINE_RANGE=P2.FINE_RANGE;
+
+5.Write a query to display the member name and the date difference between the date return and date returned.
+SELECT MEMBER_NAME,DATEDIFF(MONTH,'DATE_RETURN','DATE_RETURNED') FROM 
+LMS_BOOK_ISSUE AS P1 JOIN LMS_MEMBERS AS P2 
+ON P1.MEMBER_ID=P2.MEMBER_ID;
+
+6.Write a query to display the book title and the member name of member who has taken book from library.
+SELECT BOOK_TITLE,MEMBER_NAME FROM
+LMS_MEMBERS AS P1 JOIN LMS_BOOK_ISSUE AS P2
+ON P1.MEMBER_ID=P2.MEMBER_ID
+JOIN LMS_BOOK_DETAILS AS P3
+ON P2.BOOK_CODE = P3.BOOK_CODE; 
+
+
+7.Write a query to display the book title, member name and the supplier name for the books taken from the library.
+SELECT BOOK_TITLE,MEMBER_NAME,SUPPLIER_NAME FROM
+LMS_BOOK_DETAILS AS  P1 JOIN LMS_SUPPLIERS_DETAILS AS P2 
+ON P1.SUPPLIER_ID=P2.SUPPLIER_ID
+JOIN LMS_BOOK_ISSUE AS P3
+ON P1.BOOK_CODE=P3.BOOK_CODE
+JOIN LMS_MEMBERS AS P4
+ON P3.MEMBER_ID=P4.MEMBER_ID;
+
+------------------------------------------------------------------
+17.Write a query to display the member id, member name, 
+city and member status of members with the total fine
+paid by them with alias name “Fine”.
+
+
+SELECT P1.MEMBER_ID,MEMBER_NAME,CITY, SUM(P3.FINE_AMOUNT) AS FINE FROM 
+LMS_MEMBERS P1 JOIN LMS_BOOK_ISSUE P2 ON
+P1.MEMBER_ID = P2.MEMBER_ID JOIN 
+LMS_FINE_DETAILS AS P3 ON 
+P2.FINE_RANGE = P3.FINE_RANGE
+GROUP BY P1.MEMBER_ID, P1.MEMBER_NAME, P1.CITY;
+-----------------------------------------------------------------------
+
+
+REMAINING QUESTIONS:
+2.Write a query to display the total number of books available in the library with alias name “NO_OF_BOOKS_AVAILABLE” (Which is not issued). 
+Hint: The issued books details are available in the LMS_BOOK_ISSUE table.
+
+SELECT COUNT(P2.BOOK_CODE) AS NOOFBOOKAVAIALABE FROM  LMS_BOOK_ISSUE AS P1 RIGHT JOIN LMS_BOOK_DETAILS AS P2
+ON P1.BOOK_CODE=P2.BOOK_CODE WHERE P1.BOOK_CODE IS NULL;
+6.Write a query to display the member id, member name, due date and date returned of the members who has
+returned the books after the due date. Hint: Date_return is due date and Date_returned is actual book return date. 
+
+SELECT P2.MEMBER_ID,P2.MEMBER_NAME,P1.DATE_RETURN,P1.DATE_RETURNED FROM 
+LMS_BOOK_ISSUE AS P1 JOIN LMS_MEMBERS AS P2 ON P1.MEMBER_ID = P2.MEMBER_ID
+WHERE DATE_RETURNED > DATE_RETURN;
+
+9.Write a query to display the date on which the maximum numbers of books were issued 
+and the number of books issued with alias name “NOOFBOOKS”.
+
+SELECT DATE_ISSUE,COUNT(DATE_ISSUE) AS NOOFBOOKS FROM 
+LMS_BOOK_ISSUE GROUP BY DATE_ISSUE HAVING COUNT(DATE_ISSUE)=(SELECT MAX(VALUE) FROM 
+(SELECT COUNT(DATE_ISSUE) AS VALUE FROM LMS_BOOK_ISSUE GROUP BY DATE_ISSUE) AS P1)
+
+14.Write a query to display the book code, book title ,supplier name and 
+price of the book witch takes maximum price based on each supplier.
+
+SELECT BOOK_CODE,BOOK_TITLE,SUPPLIER_NAME,PRICE FROM 
+LMS_BOOK_DETAILS AS P1 JOIN LMS_SUPPLIERS_DETAILS AS P2
+ON P1.SUPPLIER_ID=P2.SUPPLIER_ID WHERE PRICE=(SELECT MAX(PRICE) FROM LMS_BOOK_DETAILS);
+
+Write a query to display the date on which the maximum numbers of books were issued and the
+number of books issued with alias name “NOOFBOOKS”.
+SELECT DATE_ISSUE,COUNT(DATE_ISSUE) AS NOOFBOOKS FROM 
+LMS_BOOK_ISSUE GROUP BY DATE_ISSUE HAVING COUNT(DATE_ISSUE)=(SELECT MAX(VALUE) FROM 
+(SELECT COUNT(DATE_ISSUE) AS VALUE FROM LMS_BOOK_ISSUE GROUP BY DATE_ISSUE) AS P1)
+
+
+
+COMPLEX QUESTIONS
+1
+
+SELECT BOOK_CODE,BOOK_TITLE,SUPPLIER_NAME FROM 
+LMS_BOOK_DETAILS AS P1 JOIN LMS_SUPPLIERS_DETAILS AS P2 ON
+P1.SUPPLIER_ID = P2.SUPPLIER_ID WHERE 
+P2.SUPPLIER_ID IN (SELECT SUPPLIER_ID FROM 
+LMS_BOOK_DETAILS GROUP BY SUPPLIER_ID HAVING COUNT(SUPPLIER_ID)=(SELECT MAX(COUNTOFBOOKS) 
+FROM (SELECT COUNT(*)AS  COUNTOFBOOKS FROM LMS_BOOK_DETAILS GROUP BY SUPPLIER_ID)AS DATA));
+2.
+USE [lms_db]
+select P1.MEMBER_ID,MEMBER_NAME,P2.cb as REMAINING_BOOKS from 
+LMS_MEMBERS P1 join (select a.member_id,COUNT(P3.MEMBER_ID) as cb from
+LMS_MEMBERS a left outer join LMS_BOOK_ISSUE P3 on a.MEMBER_ID= P3.MEMBER_ID
+group by a.MEMBER_ID)P2 on P2.MEMBER_ID=P1.MEMBER_ID
+3.
+USE [lms_db]
+
+select P2.SUPPLIER_ID,SUPPLIER_NAME 
+from LMS_BOOK_DETAILS P1 join LMS_SUPPLIERS_DETAILS P2 on P1.SUPPLIER_ID = P2.SUPPLIER_ID 
+where P2.SUPPLIER_ID in (select SUPPLIER_ID from LMS_BOOK_DETAILS group by SUPPLIER_ID having 
+COUNT(SUPPLIER_ID)=(select MIN(COUNTT) from (select COUNT(*) as COUNTT from LMS_BOOK_DETAILS group by SUPPLIER_ID)as T))
+
+
